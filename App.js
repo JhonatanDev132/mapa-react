@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 
@@ -39,7 +39,9 @@ export default function App() {
       /* maxZoomLevel={15}
       minZoomLevel={5} */
       >
-        <Marker coordinate={localizacao} draggable/>
+        <Marker coordinate={localizacao} draggable>
+          <Image source={require('./assets/ghost.png')} />
+        </Marker>
       </MapView>
     </View>
     </>
