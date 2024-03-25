@@ -1,10 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 
 
 export default function App() {
+
+  const [localizacao, setLocalizacao] = useState({
+    latitude: -33.867886,
+    longitude: -63.987,
+    latitudeDelta: 10,
+    longitudeDelta: 10,
+  });
+
   const regiaoInicialMapa = {
     /* Brasil
     latitude: -10,
@@ -20,13 +29,15 @@ export default function App() {
     longitudeDelta: 40,
   };
 
-  /* Coordenadas para o Marker que será aplicado ao MapView */
-  const localizacao = {
-    latitude: -33.867886,
-    longitude: -63.987,
-    latitudeDelta: 10,
-    longitudeDelta: 10,
-  }
+  const marcarLocal = (event) => {
+    setLocalizacao({
+      ...localizacao,
+      latitude: event.nativeEvent.coordinate.latitude,
+      longitude: event.nativeEvent.coordinate.longitude,
+    });
+  };
+
+
   return (
     <>
     <StatusBar barStyle="defalt" />
@@ -34,14 +45,10 @@ export default function App() {
       <MapView 
       style={styles.mapa} 
       initialRegion={regiaoInicialMapa}
-      mapType="standard"
-      userInterfaceStyle="dark"
-      /* maxZoomLevel={15}
-      minZoomLevel={5} */
+      onPress={marcarLocal}
+      mapType='standard'
       >
-        <Marker coordinate={localizacao} draggable>
-          <Image source={require('./assets/ghost.png')} />
-        </Marker>
+        <Marker coordinate={localizacao} draggable/>
       </MapView>
     </View>
     </>
